@@ -36,9 +36,7 @@ export function Home() {
 
     tasks.map(task => {
       if (task.id === id) {
-        task.done = !task.done;
-        console.log(refresh);
-        
+        task.done = !task.done    
       }
     })
     setRefresh(refreshView)
@@ -58,15 +56,13 @@ export function Home() {
   }
 
   useEffect(() => {
-    console.log("use effect");
-    
   }, [refresh])
 
   return (
     <>
       <Header />
 
-      <TodoInput addTask={handleAddTask} />
+      <TodoInput  addTask={handleAddTask} />
 
       <MyTasksList
         tasks={tasks}
