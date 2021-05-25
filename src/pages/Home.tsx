@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
 import { Header } from '../components/Header';
 import { MyTasksList } from '../components/MyTasksList';
@@ -13,34 +13,54 @@ interface Task {
 export function Home() {
   const [task, setTask] = useState('')
   const [tasks, setTasks] = useState<Task[]>([]);
+  const [refresh, setRefresh] = useState(false)
   //const [doneTasks, setDoneTasks] = useState<Task[]>([]);
 
 
   function handleAddTask(newTaskTitle: string) {
-    const data = {
+    const task = {
       id: new Date().getTime(),
-      title: task,
+      title: newTaskTitle,
       done: false
     }
-    if (data.title !== "") {
-      setTasks(oldState => [...tasks, data])
+    
+    if (task.title !== "") {
+      setTask(task.title)
+      setTasks(oldState => [...oldState, task])
     }
+
   }
 
   function handleMarkTaskAsDone(id: number) {
-      tasks.map((item)=>{
-        if(item.done === false){
-          item.done=true
-        }else{
-          item.done=false
-        }
-      })
-    //TODO - mark task as done if exists
+    let refreshView = !refresh;
+
+    tasks.map(task => {
+      if (task.id === id) {
+        task.done = !task.done;
+        console.log(refresh);
+        
+      }
+    })
+    setRefresh(refreshView)
   }
 
+  //TODO - mark task as done if exists
+
+
   function handleRemoveTask(id: number) {
+
+
+    setTasks(oldstate => oldstate.filter(
+      task => task.id !== id
+
+    ))
     //TODO - remove task from state
   }
+
+  useEffect(() => {
+    console.log("use effect");
+    
+  }, [refresh])
 
   return (
     <>
